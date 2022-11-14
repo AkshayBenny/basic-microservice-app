@@ -13,29 +13,28 @@ export const PostList = (props) => {
         fetchPosts()
     }, [props.posts])
 
-    const renderedPosts = Object.values(posts)
+    let renderedPosts = Object.values(posts).map((post) => {
+        return (
+            <div
+                key={post.id}
+                className='border p-3 rounded-md border-black'>
+                <h2 className='uppercase font-light text-xl pb-4'>
+                    {post.title}
+                </h2>
+                <input
+                    type='text'
+                    className='border border-black rounded-md px-2 py-2'
+                    placeholder='Commments...'
+                />
+            </div>
+        )
+    })
 
     return (
         <div className='px-12'>
             <h1 className='p-12'>My Posts</h1>
             <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-4'>
-                {renderedPosts?.map((post) => {
-                    console.log('>>>>>', post)
-                    return (
-                        <div
-                            key={post.id}
-                            className='border p-3 rounded-md border-black'>
-                            <h2 className='uppercase font-light text-xl pb-4'>
-                                {post.title}
-                            </h2>
-                            <input
-                                type='text'
-                                className='border border-black rounded-md px-2 py-2'
-                                placeholder='Commments...'
-                            />
-                        </div>
-                    )
-                })}
+                {renderedPosts}
             </div>
         </div>
     )
