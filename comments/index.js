@@ -1,10 +1,11 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const { v4: uuidv4 } = require('uuid')
-
+const cors = require('cors')
 const app = express()
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+app.use(cors())
 
 const commentsByPostId = {}
 
@@ -29,6 +30,6 @@ app.post('/posts/:id/comments', (req, res) => {
     })
 })
 
-app.listen(6000, function () {
+app.listen(5001, function () {
     console.log('Server is running on port 6000')
 })

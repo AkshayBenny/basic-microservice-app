@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import CommentCreate from './CommentCreate'
 
 export const PostList = (props) => {
     const [posts, setPosts] = useState({})
@@ -21,11 +22,7 @@ export const PostList = (props) => {
                 <h2 className='uppercase font-light text-xl pb-4'>
                     {post.title}
                 </h2>
-                <input
-                    type='text'
-                    className='border border-black rounded-md px-2 py-2'
-                    placeholder='Commments...'
-                />
+                <CommentCreate postId={post.id} />
             </div>
         )
     })
