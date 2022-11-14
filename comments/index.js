@@ -10,7 +10,7 @@ app.use(cors())
 const commentsByPostId = {}
 
 app.get('/posts/:id/comments', (req, res) => {
-    const pid = req.query.params
+    const pid = req.params.id
     res.send(commentsByPostId[pid] || [])
 })
 

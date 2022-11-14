@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import CommentList from './CommentList'
 
 const CommentCreate = ({ postId }) => {
@@ -22,6 +22,21 @@ const CommentCreate = ({ postId }) => {
         setComment('')
         setComments(res.data.comments)
     }
+
+    useEffect(() => {
+        const fetchComments = async () => {
+            const res = await axios.get(
+                `http://localhost:5001/posts/${postId}/comments`,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            )
+            setComments(res.data)
+        }
+        fetchComments()
+    }, [])
 
     return (
         <>
