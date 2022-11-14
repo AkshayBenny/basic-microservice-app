@@ -31,5 +31,5 @@ app.post('/posts/:id/comments', (req, res) => {
 })
 
 app.listen(5001, function () {
-    console.log('Server is running on port 6000')
+    console.log('Server is running on port 5001')
 })
