@@ -1,10 +1,12 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const { v4: uuidv4 } = require('uuid')
+const cors = require('cors')
 
 const app = express()
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+app.use(cors())
 
 const posts = {}
 
@@ -16,6 +18,7 @@ app.post('/posts', (req, res) => {
     const { title } = req.body
     const id = uuidv4()
     posts[id] = { id, title }
+    console.log(posts)
     res.send({ message: 'Post created successfully', post: { id, title } })
 })
 
