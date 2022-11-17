@@ -17,7 +17,7 @@ function App() {
                 },
             }
         )
-        const { title, id } = res.data.post
+        const { title, id } = res.data
         setPosts([...posts, { id, title }])
 
         setPost('')

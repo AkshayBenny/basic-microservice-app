@@ -1,6 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const { v4: uuidv4 } = require('uuid')
+const axios = require('axios')
 const cors = require('cors')
 
 const app = express()
@@ -14,12 +15,15 @@ app.get('/posts', (req, res) => {
     res.send(posts)
 })
 
-app.post('/posts', (req, res) => {
+app.post('/posts', async (req, res) => {
     const { title } = req.body
     const id = uuidv4()
     posts[id] = { id, title }
-    console.log(posts)
-    res.send({ message: 'Post created successfully', post: { id, title } })
+    await axios.post('http://localhost:4005/events', {
+        type: 'PostCreated',
+        data: { id, title },
+    })
+    res.send(posts[id])
 })
 
 app.listen(5000, function () {
