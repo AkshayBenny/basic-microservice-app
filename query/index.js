@@ -19,13 +19,13 @@ app.post('/posts', async (req, res) => {
 	const { title } = req.body
 	const id = uuidv4()
 	posts[id] = { id, title }
-	// await axios.post('http://localhost:4005/events', {
-	// 	type: 'PostCreated',
-	// 	data: { id, title },
-	// })
-	res.status(201).send(posts[id])
+	await axios.post('http://localhost:4005/events', {
+		type: 'PostCreated',
+		data: { id, title }, 
+	})
+	res.send(posts[id])
 })
 
-app.listen(4000, function () {
-	console.log('Posts service running on port 4000')
+app.listen(4002, function () {
+	console.log('Server is running on port 5000')
 })
