@@ -8,19 +8,23 @@ const CommentCreate = ({ postId }) => {
 
 	const submitHandler = async (e) => {
 		e.preventDefault()
-		const res = await axios.post(
-			`http://localhost:4001/posts/${postId}/comments`,
-			{ comment },
-			{
-				headers: {
-					'Content-Type': 'application/json',
-					'Access-Control-Allow-Origin': '*',
-					'Access-Control-Allow-Headers': '*',
-				},
-			}
-		)
-		setComment('')
-		setComments(res.data.comments)
+		try {
+			const res = await axios.post(
+				`http://localhost:4001/posts/${postId}/comments`,
+				{ comment },
+				{
+					headers: {
+						'Content-Type': 'application/json',
+						'Access-Control-Allow-Origin': '*',
+						'Access-Control-Allow-Headers': '*',
+					},
+				}
+			)
+			setComment('')
+			setComments(res.data.comments)
+		} catch (error) {
+			window.alert(error.message)
+		}
 	}
 
 	useEffect(() => {
@@ -35,7 +39,11 @@ const CommentCreate = ({ postId }) => {
 			)
 			setComments(res.data)
 		}
-		fetchComments()
+		try {
+			fetchComments()
+		} catch (error) {
+			window.alert('Error fetching comments')
+		}
 	}, [])
 
 	return (

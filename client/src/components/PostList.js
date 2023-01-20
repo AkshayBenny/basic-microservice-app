@@ -11,7 +11,11 @@ export const PostList = (props) => {
 
 			setPosts(res.data)
 		}
-		fetchPosts()
+		try {
+			fetchPosts()
+		} catch (error) {
+			window.alert('Error fetching posts')
+		}
 	}, [props.posts])
 
 	let renderedPosts = Object.values(posts).map((post) => {

@@ -10,6 +10,7 @@ app.use(bodyParser.json())
 app.use(cors())
 
 const posts = {}
+const comments = {}
 
 app.get('/posts', (req, res) => {
 	res.send(posts)
@@ -21,11 +22,11 @@ app.post('/posts', async (req, res) => {
 	posts[id] = { id, title }
 	await axios.post('http://localhost:4005/events', {
 		type: 'PostCreated',
-		data: { id, title }, 
+		data: { id, title },
 	})
 	res.send(posts[id])
 })
 
 app.listen(4002, function () {
-	console.log('Server is running on port 5000')
+	console.log('Server is running on port 4002')
 })
