@@ -1,32 +1,50 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const { v4: uuidv4 } = require('uuid')
-const axios = require('axios')
 const cors = require('cors')
 
 const app = express()
-app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cors())
 
 const posts = {}
-const comments = {}
 
 app.get('/posts', (req, res) => {
 	res.send(posts)
 })
 
-app.post('/posts', async (req, res) => {
-	const { title } = req.body
-	const id = uuidv4()
-	posts[id] = { id, title }
-	await axios.post('http://localhost:4005/events', {
-		type: 'PostCreated',
-		data: { id, title },
-	})
-	res.send(posts[id])
+app.post('/events', (req, res) => {
+	const { type, data } = req.body
+
+	if (type === 'PostCreated') {
+		const { id, title } = data
+
+		posts[id] = { id, title, comments: [] }
+	}
+
+	if (type === 'CommentCreated') {
+		const { id, comment: content, postId, status } = data
+
+		const post = posts[postId]
+		post.comments.push({ id, comment: content, status })
+	}
+
+	if (type === 'CommentUpdated') {
+		const { id, comment: content, postId, status } = data
+
+		const post = posts[postId]
+		const comment = post.comments.find((comment) => {
+			return comment.id === id
+		})
+
+		comment.status = status
+		comment.comment = content
+	}
+
+	console.log(posts)
+
+	res.send({})
 })
 
-app.listen(4002, function () {
-	console.log('Server is running on port 4002')
+app.listen(4002, () => {
+	console.log('Listening on 4002')
 })
